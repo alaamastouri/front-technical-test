@@ -1,0 +1,58 @@
+<div class="upload-container">
+  <div 
+    class="upload-zone"
+    [class.dragging]="isDragging"
+    (dragover)="onDragOver($event)"
+    (dragleave)="onDragLeave($event)"
+    (drop)="onDrop($event)"
+    (click)="fileInput.click()">
+    
+    <div class="upload-icon">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+        <polyline points="17,8 12,3 7,8"/>
+        <line x1="12" y1="3" x2="12" y2="15"/>
+      </svg>
+    </div>
+    
+    <div class="upload-text">
+      <p class="upload-title">
+        {{ isDragging ? 'Drop files here' : 'Upload files' }}
+      </p>
+      <p class="upload-subtitle">
+        {{ isDragging ? '' : 'Click here or drag and drop files' }}
+      </p>
+    </div>
+    
+    <input 
+      #fileInput
+      type="file" 
+      multiple 
+      class="file-input"
+      (change)="onFileSelect($event)">
+  </div>
+
+  <div class="upload-progress" *ngIf="uploadProgress.length > 0">
+    <h4>Uploading Files</h4>
+    <div class="progress-list">
+      <div 
+        *ngFor="let progress of uploadProgress" 
+        class="progress-item"
+        [class.completed]="progress.status === 'completed'"
+        [class.error]="progress.status === 'error'">
+        
+        <div class="progress-info">
+          <span class="filename">{{ progress.filename }}</span>
+          <span class="percentage">{{ progress.progress.toFixed(0) }}%</span>
+        </div>
+        
+        <div class="progress-bar">
+          <div 
+            class="progress-fill" 
+            [style.width.%]="progress.progress">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

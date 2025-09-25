@@ -1,9 +1,60 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { FileItem, UploadProgress } from './types/file-manager.types';
+import { UploadComponent } from './components/upload/upload/upload.component';
+import { FileManagerService } from './services/file-manager.service';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
 	selector: 'ic-root',
-	imports: [],
+	imports: [CommonModule, FormsModule, UploadComponent],
 	templateUrl: './app.component.html',
 	styleUrl: './app.component.scss',
 })
-export class AppComponent {}
+export class AppComponent {
+	@ViewChild('uploadComponent') uploadComponent!: UploadComponent;
+
+	showUpload = false;
+
+	activeUploads: UploadProgress[] = [];
+
+	constructor(private fileManagerService: FileManagerService) {}
+
+	ngOnInit() {}
+
+	onFilesSelected(files: File[]) {
+		this.activeUploads = [];
+
+		files.forEach(file => {
+			this.fileManagerService.uploadFile(file).subscribe({
+				next: progress => {
+					const existingIndex = this.activeUploads.findIndex(
+						p => p.filename === progress.filename
+					);
+					if (existingIndex >= 0) {
+						this.activeUploads[existingIndex] = progress;
+					} else {
+						this.activeUploads.push(progress);
+					}
+
+					this.uploadComponent?.updateProgress([...this.activeUploads]);
+				},
+				complete: () => {
+					setTimeout(() => {
+						this.activeUploads = this.activeUploads.filter(
+							p => p.filename !== file.name
+						);
+						this.uploadComponent?.updateProgress([...this.activeUploads]);
+
+						if (this.activeUploads.length === 0) {
+							setTimeout(() => {
+								this.showUpload = false;
+								this.uploadComponent?.clearProgress();
+							}, 1000);
+						}
+					}, 1000);
+				},
+			});
+		});
+	}
+}
