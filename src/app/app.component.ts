@@ -1,13 +1,14 @@
 import { Component, ViewChild } from '@angular/core';
 import { FileItem, UploadProgress } from './types/file-manager.types';
-import { UploadComponent } from './components/upload/upload/upload.component';
+import { UploadComponent } from './components/upload/upload.component';
 import { FileManagerService } from './services/file-manager.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { FileItemComponent } from './components/file-item/file-item.component';
 
 @Component({
 	selector: 'ic-root',
-	imports: [CommonModule, FormsModule, UploadComponent],
+	imports: [CommonModule, FormsModule, UploadComponent, FileItemComponent],
 	templateUrl: './app.component.html',
 	styleUrl: './app.component.scss',
 })
@@ -18,9 +19,20 @@ export class AppComponent {
 
 	activeUploads: UploadProgress[] = [];
 
+	files: FileItem[] = [];
+
 	constructor(private fileManagerService: FileManagerService) {}
 
-	ngOnInit() {}
+	ngOnInit() {
+		this.fileManagerService.getItems().subscribe({
+			next: response => {
+				this.files = response.items;
+			},
+			error: error => {
+				console.error('Failed to load files:', error);
+			},
+		});
+	}
 
 	onFilesSelected(files: File[]) {
 		this.activeUploads = [];

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of, delay, map } from 'rxjs';
-import { FileItem, UploadProgress } from '../types/file-manager.types';
+import { Observable, map } from 'rxjs';
+import { UploadProgress, FilesResponse } from '../types/file-manager.types';
 import { HttpClient, HttpEventType, HttpRequest } from '@angular/common/http';
 
 @Injectable({
@@ -52,5 +52,9 @@ export class FileManagerService {
 				}
 			})
 		);
+	}
+
+	getItems(): Observable<FilesResponse> {
+		return this.http.get<FilesResponse>(this.apiUrl);
 	}
 }

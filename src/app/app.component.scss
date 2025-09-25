@@ -1,7 +1,7 @@
 .container {
 	display: flex;
 	min-height: 100vh;
-	background: #d5dee8;
+	background: #f4f6f9;
 }
 
 .sidebar {
@@ -55,6 +55,7 @@
 	font-weight: 500;
 	cursor: pointer;
 	transition: all 0.2s;
+	font-size: 16px;
 }
 
 .action-button:hover {
@@ -70,4 +71,9 @@
 
 .action-button.primary:hover {
 	background: #2563eb;
+}
+
+.files-container {
+	display: grid;
+	gap: 16px;
 }

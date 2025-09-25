@@ -1,0 +1,36 @@
+.file-item {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 12px;
+	border: 1px solid #e5e7eb;
+	border-radius: 8px;
+	background: white;
+	cursor: pointer;
+	transition: all 0.2s;
+	min-height: 4rem;
+}
+
+.file-item:hover {
+	border-color: #3b82f6;
+	transform: translateY(-2px);
+}
+
+.file-icon {
+	flex-shrink: 0;
+	color: #6b7280;
+}
+
+.file-icon svg {
+	display: block;
+}
+
+.file-info {
+	flex: 1;
+	min-width: 0;
+}
+
+.file-name {
+	font-weight: 500;
+	color: #1f2937;
+}
