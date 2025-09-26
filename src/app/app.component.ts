@@ -24,6 +24,10 @@ export class AppComponent {
 	constructor(private fileManagerService: FileManagerService) {}
 
 	ngOnInit() {
+		this.getList();
+	}
+
+	getList() {
 		this.fileManagerService.getItems().subscribe({
 			next: response => {
 				this.files = response.items;
@@ -59,6 +63,7 @@ export class AppComponent {
 						this.uploadComponent?.updateProgress([...this.activeUploads]);
 
 						if (this.activeUploads.length === 0) {
+							this.getList();
 							setTimeout(() => {
 								this.showUpload = false;
 								this.uploadComponent?.clearProgress();
@@ -66,7 +71,44 @@ export class AppComponent {
 						}
 					}, 1000);
 				},
+				error: error => {
+					console.log('error', error);
+					if (error.error?.errors) {
+						const allMessages = error.error.errors
+							.map((err: any) => err.message)
+							.join('\n');
+						alert(allMessages);
+					}
+					this.activeUploads = [];
+					this.showUpload = false;
+					this.uploadComponent?.clearProgress();
+				},
 			});
+		});
+	}
+
+	onDeleteItem(file: FileItem) {
+		if (confirm(`Are you sure you want to delete "${file.name}"?`)) {
+			this.fileManagerService.deleteItem(file.id).subscribe({
+				next: () => {
+					this.getList();
+				},
+				error: error => {
+					console.error('Delete failed:', error);
+				},
+			});
+		}
+	}
+
+	onDownloadFile(file: FileItem) {
+		this.fileManagerService.downloadFile(file.id).subscribe(blob => {
+			const url = URL.createObjectURL(blob);
+			const link = document.createElement('a');
+			link.href = url;
+			link.download = file.name;
+			link.click();
+			console.log('link', link);
+			URL.revokeObjectURL(url);
 		});
 	}
 }

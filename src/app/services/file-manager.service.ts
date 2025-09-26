@@ -57,4 +57,14 @@ export class FileManagerService {
 	getItems(): Observable<FilesResponse> {
 		return this.http.get<FilesResponse>(this.apiUrl);
 	}
+
+	deleteItem(itemId: string): Observable<void> {
+		return this.http.delete<void>(`${this.apiUrl}/${itemId}`);
+	}
+
+	downloadFile(itemId: string): Observable<Blob> {
+		return this.http.get(`${this.apiUrl}/${itemId}`, {
+			responseType: 'blob',
+		});
+	}
 }

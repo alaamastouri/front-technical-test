@@ -11,4 +11,16 @@ import { FileItem } from '../../types/file-manager.types';
 })
 export class FileItemComponent {
 	@Input() file!: FileItem;
+	@Output() delete = new EventEmitter<FileItem>();
+	@Output() download = new EventEmitter<FileItem>();
+
+	onDelete(event: Event) {
+		event.stopPropagation();
+		this.delete.emit(this.file);
+	}
+
+	onDownload(event: Event) {
+		event.stopPropagation();
+		this.download.emit(this.file);
+	}
 }
