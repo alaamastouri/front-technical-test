@@ -77,3 +77,32 @@
 	display: grid;
 	gap: 16px;
 }
+
+.new-folder-input {
+	background: #f9fafb;
+	padding: 16px;
+	border-radius: 8px;
+	margin-bottom: 24px;
+}
+
+.new-folder-input input {
+	width: 100%;
+	padding: 12px 0;
+	border: 1px solid #d1d5db;
+	border-radius: 4px;
+	margin-bottom: 12px;
+	font-size: 14px;
+}
+
+.input-actions {
+	display: flex;
+	gap: 8px;
+}
+
+.btn-small {
+	padding: 6px 12px;
+	font-size: 12px;
+	border: 1px solid #d1d5db;
+	border-radius: 4px;
+	background: white;
+}

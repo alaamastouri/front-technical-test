@@ -9,6 +9,28 @@
 				Upload Files
 			</button>
 		</div>
+
+		<button
+			class="action-button"
+			(click)="showNewFolderInput = !showNewFolderInput">
+			New Folder
+		</button>
+
+		<div class="new-folder-input" *ngIf="showNewFolderInput">
+			<input
+				type="text"
+				placeholder="Folder name"
+				[(ngModel)]="newFolderName"
+				(keyup.enter)="createFolder()"
+				(keyup.escape)="cancelNewFolder()"
+				#folderInput />
+			<div>
+				<button class="btn-small primary" (click)="createFolder()">
+					Create
+				</button>
+				<button class="btn-small" (click)="cancelNewFolder()">Cancel</button>
+			</div>
+		</div>
 	</div>
 
 	<div class="main-content">

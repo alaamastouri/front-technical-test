@@ -21,6 +21,10 @@ export class AppComponent {
 
 	files: FileItem[] = [];
 
+	showNewFolderInput = false;
+
+	newFolderName = '';
+
 	constructor(private fileManagerService: FileManagerService) {}
 
 	ngOnInit() {
@@ -110,5 +114,19 @@ export class AppComponent {
 			console.log('link', link);
 			URL.revokeObjectURL(url);
 		});
+	}
+
+	createFolder() {
+		if (this.newFolderName) {
+			this.fileManagerService.createFolder(this.newFolderName).subscribe(() => {
+				this.getList();
+				this.cancelNewFolder();
+			});
+		}
+	}
+
+	cancelNewFolder() {
+		this.showNewFolderInput = false;
+		this.newFolderName = '';
 	}
 }

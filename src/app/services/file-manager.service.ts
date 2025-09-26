@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
-import { UploadProgress, FilesResponse } from '../types/file-manager.types';
+import {
+	UploadProgress,
+	FilesResponse,
+	FileItem,
+	FolderItem,
+} from '../types/file-manager.types';
 import { HttpClient, HttpEventType, HttpRequest } from '@angular/common/http';
 
 @Injectable({
@@ -66,5 +71,14 @@ export class FileManagerService {
 		return this.http.get(`${this.apiUrl}/${itemId}`, {
 			responseType: 'blob',
 		});
+	}
+
+	createFolder(name: string): Observable<FileItem> {
+		const body: FolderItem = {
+			name: name,
+			folder: true,
+		};
+
+		return this.http.post<FileItem>(this.apiUrl, body);
 	}
 }

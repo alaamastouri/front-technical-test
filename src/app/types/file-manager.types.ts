@@ -16,3 +16,8 @@ export interface UploadProgress {
 export interface FilesResponse {
 	items: FileItem[];
 }
+
+export interface FolderItem {
+	name: string;
+	folder: boolean;
+}
