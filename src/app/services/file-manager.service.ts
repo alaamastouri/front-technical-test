@@ -6,7 +6,12 @@ import {
 	FileItem,
 	FolderItem,
 } from '../types/file-manager.types';
-import { HttpClient, HttpEventType, HttpRequest } from '@angular/common/http';
+import {
+	HttpClient,
+	HttpEventType,
+	HttpParams,
+	HttpRequest,
+} from '@angular/common/http';
 
 @Injectable({
 	providedIn: 'root',
@@ -59,8 +64,12 @@ export class FileManagerService {
 		);
 	}
 
-	getItems(): Observable<FilesResponse> {
-		return this.http.get<FilesResponse>(this.apiUrl);
+	getItems(parentId?: string): Observable<FilesResponse> {
+		const params = parentId
+			? { params: new HttpParams().set('parentId', parentId) }
+			: {};
+
+		return this.http.get<FilesResponse>(this.apiUrl, params);
 	}
 
 	deleteItem(itemId: string): Observable<void> {
@@ -73,10 +82,11 @@ export class FileManagerService {
 		});
 	}
 
-	createFolder(name: string): Observable<FileItem> {
+	createFolder(name: string, parentId?: string): Observable<FileItem> {
 		const body: FolderItem = {
 			name: name,
 			folder: true,
+			parentId: parentId,
 		};
 
 		return this.http.post<FileItem>(this.apiUrl, body);

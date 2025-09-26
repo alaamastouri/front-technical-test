@@ -13,6 +13,7 @@ export class FileItemComponent {
 	@Input() file!: FileItem;
 	@Output() delete = new EventEmitter<FileItem>();
 	@Output() download = new EventEmitter<FileItem>();
+	@Output() itemClick = new EventEmitter<FileItem>();
 
 	onDelete(event: Event) {
 		event.stopPropagation();
@@ -22,5 +23,10 @@ export class FileItemComponent {
 	onDownload(event: Event) {
 		event.stopPropagation();
 		this.download.emit(this.file);
+	}
+
+	onItemClick(event: Event) {
+		event.stopPropagation();
+		this.itemClick.emit(this.file);
 	}
 }

@@ -34,7 +34,14 @@
 	</div>
 
 	<div class="main-content">
-		<div class="content-header"></div>
+		<div class="content-header">
+			<app-breadcrumb
+				[currentFolder]="currentFolder"
+				(pathChanged)="onPathChanged($event)"
+				(rootClick)="navigateToRoot()"
+				(pathClick)="navigateToFolder($event)">
+			</app-breadcrumb>
+		</div>
 
 		<app-upload
 			*ngIf="showUpload"
@@ -50,7 +57,8 @@
 				*ngFor="let file of files"
 				[file]="file"
 				(delete)="onDeleteItem($event)"
-				(download)="onDownloadFile($event)">
+				(download)="onDownloadFile($event)"
+				(itemClick)="onClickFolder($event)">
 			</app-file-item>
 		</div>
 	</div>

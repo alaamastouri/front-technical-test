@@ -1,0 +1,26 @@
+.breadcrumb {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 12px 0;
+	font-size: 14px;
+}
+
+.breadcrumb-item {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	font-size: 14px;
+	background: none;
+	border: none;
+	color: #6b7280;
+	cursor: pointer;
+	padding: 4px 8px;
+	border-radius: 4px;
+	transition: all 0.2s;
+}
+
+.breadcrumb-item.active {
+	color: #1f2937;
+	font-weight: 500;
+}

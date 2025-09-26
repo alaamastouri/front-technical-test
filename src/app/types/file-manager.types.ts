@@ -20,4 +20,11 @@ export interface FilesResponse {
 export interface FolderItem {
 	name: string;
 	folder: boolean;
+	parentId?: string;
+}
+
+export interface CurrentFolder {
+	name: string;
+	parentId: string;
+	id: string;
 }

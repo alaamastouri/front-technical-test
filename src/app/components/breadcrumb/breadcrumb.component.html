@@ -1,0 +1,26 @@
+<nav class="breadcrumb">
+	<button class="breadcrumb-item" (click)="onRootClick($event)">
+		<svg
+			width="16"
+			height="16"
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			stroke-width="2">
+			<path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+		</svg>
+		Root
+	</button>
+
+	<span class="separator" *ngIf="path.length > 0">/</span>
+
+	<ng-container *ngFor="let folder of path; let i = index">
+		<button
+			class="breadcrumb-item"
+			[class.active]="i === path.length - 1"
+			(click)="onPathClick(folder, $event)">
+			{{ folder.name }}
+		</button>
+		<span class="separator" *ngIf="i < path.length - 1">/</span>
+	</ng-container>
+</nav>
